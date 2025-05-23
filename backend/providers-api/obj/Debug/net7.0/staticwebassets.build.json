@@ -1,0 +1,11 @@
+{
+  "Version": 1,
+  "Hash": "tr2z/jE/8VZBXV8o3YLaJ/2htRPzAKp8gcq8LST306M=",
+  "Source": "providers-api",
+  "BasePath": "_content/providers-api",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": []
+}
