@@ -1,0 +1,205 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>providers-api</name>
+    </assembly>
+    <members>
+        <member name="M:ProviderApi.Controllers.ProviderController.Create(ProviderApi.Models.Provider)">
+            <summary>
+            Crea un nuevo proveedor.
+            </summary>
+        </member>
+        <member name="M:ProviderApi.Controllers.ProviderController.GetByName(System.String)">
+            <summary>
+            Busca proveedores por nombre.
+            </summary>
+            <param name="name">Nombre comercial del proveedor</param>
+        </member>
+        <member name="M:ProviderApi.Controllers.ProviderController.GetAllProviders">
+            <summary>
+            Retorna la lista de todos los proveedores registrados.
+            </summary>         
+        </member>
+        <member name="M:ProviderApi.Controllers.ProviderController.Update(ProviderApi.Models.Provider)">
+            <summary>
+            Actualiza un proveedor existente.
+            </summary>
+        </member>
+        <member name="M:ProviderApi.Controllers.ProviderController.Delete(System.Int32)">
+            <summary>
+            Elimina un proveedor por su ID.
+            </summary>
+            <param name="id">ID del proveedor</param>
+        </member>
+        <member name="T:ProviderApi.Data.ProviderDbContext">
+            <summary>
+            Contexto de base de datos para el módulo de proveedores.
+            Gestiona la conexión y el mapeo entre clases C# y tablas SQL Server.
+            </summary>
+        </member>
+        <member name="M:ProviderApi.Data.ProviderDbContext.#ctor(Microsoft.EntityFrameworkCore.DbContextOptions{ProviderApi.Data.ProviderDbContext})">
+            <summary>
+            Constructor que recibe las opciones de configuración del contexto.
+            </summary>
+            <param name="opts">Opciones de configuración del contexto.</param>
+        </member>
+        <member name="P:ProviderApi.Data.ProviderDbContext.Providers">
+            <summary>
+            Representa la tabla de proveedores en la base de datos.
+            </summary>
+        </member>
+        <member name="M:ProviderApi.Data.ProviderDbContext.OnModelCreating(Microsoft.EntityFrameworkCore.ModelBuilder)">
+            <summary>
+            Configura el modelo de datos, incluyendo el esquema y tipos personalizados.
+            </summary>
+            <param name="model">Constructor del modelo de entidades.</param>
+        </member>
+        <member name="T:ProviderApi.Models.Provider">
+            <summary>
+            Representa un proveedor registrado en el sistema.
+            Contiene datos tributarios, de contacto y financieros.
+            </summary>
+        </member>
+        <member name="P:ProviderApi.Models.Provider.Id">
+            <summary>
+            Clave primaria auto-generada. No debe venir en el JSON.
+            </summary>
+        </member>
+        <member name="P:ProviderApi.Models.Provider.SocialName">
+            <summary>
+            Razón social del proveedor (nombre legal).
+            </summary>
+        </member>
+        <member name="P:ProviderApi.Models.Provider.CommercialName">
+            <summary>
+            Nombre comercial del proveedor.
+            </summary>
+        </member>
+        <member name="P:ProviderApi.Models.Provider.TributeID">
+            <summary>
+            Número de RUC o código tributario (exactamente 11 dígitos).
+            </summary>
+        </member>
+        <member name="P:ProviderApi.Models.Provider.PhoneNumber">
+            <summary>
+            Número de teléfono del proveedor.
+            </summary>
+        </member>
+        <member name="P:ProviderApi.Models.Provider.Email">
+            <summary>
+            Correo electrónico del proveedor.
+            </summary>
+        </member>
+        <member name="P:ProviderApi.Models.Provider.WebPage">
+            <summary>
+            Página web del proveedor (si aplica).
+            </summary>
+        </member>
+        <member name="P:ProviderApi.Models.Provider.Address">
+            <summary>
+            Dirección física del proveedor.
+            </summary>
+        </member>
+        <member name="P:ProviderApi.Models.Provider.Country">
+            <summary>
+            País donde está registrado el proveedor.
+            </summary>
+        </member>
+        <member name="P:ProviderApi.Models.Provider.AnnualBilling">
+            <summary>
+            Monto de facturación anual del proveedor.
+            </summary>
+        </member>
+        <member name="P:ProviderApi.Models.Provider.LastEdited">
+            <summary>
+            Fecha de la última edición del registro del proveedor.
+            </summary>
+        </member>
+        <member name="M:ProviderApi.Models.Provider.#ctor">
+            <summary>
+            Constructor por defecto. Inicializa todos los campos con valores válidos por defecto.
+            </summary>
+        </member>
+        <member name="T:ProviderApi.Services.Creator">
+            <summary>
+            Servicio responsable de insertar un nuevo proveedor en la base de datos.
+            </summary>
+        </member>
+        <member name="M:ProviderApi.Services.Creator.CreateNewProvider(ProviderApi.Models.Provider)">
+            <summary>
+            Inserta un nuevo registro de proveedor en la base de datos SQL Server.
+            </summary>
+            <param name="provider">Objeto Provider con los datos a insertar.</param>
+        </member>
+        <member name="T:ProviderApi.Services.Eraser">
+            <summary>
+            Servicio responsable de eliminar proveedores de la base de datos.
+            </summary>
+        </member>
+        <member name="M:ProviderApi.Services.Eraser.DeleteProvider(ProviderApi.Models.Provider)">
+            <summary>
+            Elimina un proveedor existente por su ID.
+            </summary>
+            <param name="provider">Instancia con el ID del proveedor a eliminar.</param>
+        </member>
+        <member name="T:ProviderApi.Services.Manager">
+            <summary>
+            Servicio centralizado para operaciones CRUD sobre proveedores.
+            </summary>
+        </member>
+        <member name="M:ProviderApi.Services.Manager.CreateNewProvider(ProviderApi.Models.Provider)">
+            <summary>
+            Agrega un nuevo proveedor a la base de datos.
+            </summary>          
+        </member>
+        <member name="M:ProviderApi.Services.Manager.GetAllProviders">
+            <summary>
+            Retorna todos los proveedores registrados.
+            </summary>          
+        </member>
+        <member name="M:ProviderApi.Services.Manager.SearchProviderByName(System.String)">
+            <summary>
+            Busca proveedores por nombre comercial.
+            </summary>
+        </member>
+        <member name="M:ProviderApi.Services.Manager.UpdateProvider(ProviderApi.Models.Provider)">
+            <summary>
+            Actualiza la información de un proveedor.
+            </summary>
+        </member>
+        <member name="M:ProviderApi.Services.Manager.DeleteProvider(ProviderApi.Models.Provider)">
+            <summary>
+            Elimina un proveedor por su ID.
+            </summary>
+        </member>
+        <member name="T:ProviderApi.Services.Researcher">
+            <summary>
+            Servicio que permite consultar proveedores desde la base de datos.
+            </summary>
+        </member>
+        <member name="M:ProviderApi.Services.Researcher.SearchProviderByName(System.String)">
+            <summary>
+            Busca proveedores cuyo nombre comercial contenga el texto indicado.
+            </summary>
+            <param name="name">Texto a buscar en el nombre comercial</param>
+            <returns>Lista de proveedores coincidentes</returns>
+        </member>
+        <member name="M:ProviderApi.Services.Researcher.GetAllProviders">
+            <summary>
+            Obtiene todos los proveedores registrados en la base de datos.
+            </summary>
+            <returns>Lista completa de proveedores</returns>
+        </member>
+        <member name="T:ProviderApi.Services.Updater">
+            <summary>
+            Servicio que permite actualizar proveedores existentes en la base de datos.
+            </summary>
+        </member>
+        <member name="M:ProviderApi.Services.Updater.UpdateProvider(ProviderApi.Models.Provider)">
+            <summary>
+            Actualiza un proveedor existente con nuevos valores.
+            </summary>
+            <param name="provider">Proveedor con datos actualizados. El campo <c>Id</c> debe estar presente.</param>
+        </member>
+    </members>
+</doc>

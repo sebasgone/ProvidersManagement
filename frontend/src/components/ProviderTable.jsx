@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
 
-export default function ProviderTable({ search, setSelectedProvider }) {
+export default function ProviderTable({ search, setSelectedProvider, isCrossing }) {
   const [providers, setProviders] = useState([]);
   const [error, setError] = useState(null);
   const [selectedRow, setSelectedRow] = useState(null); // 🔹 Estado para manejar la fila seleccionada
 
-  useEffect(() => {
-    const fetchProviders = async () => {
+  
+  const fetchProviders = async () => {
       try {
         const res = await fetch("http://localhost:5232/api/backend/fetchall"); // 🔹 Espera la respuesta
         if (!res.ok) throw new Error(`Error ${res.status}: No se pudo obtener proveedores`);
@@ -17,17 +17,19 @@ export default function ProviderTable({ search, setSelectedProvider }) {
         setError(`❌ ${err.message}`);
       }
     };
-
+  
+  useEffect(() => {
     fetchProviders(); // 🔹 Llamar a la función asincrónica
   }, []);
 
+  if (isCrossing) return null;
   if (error) return <p style={{ color: "red" }}>{error}</p>;
   if (providers.length === 0) return <p>Cargando proveedores...</p>;
 
   return (
-    <div style={{ display: "flex", justifyContent: "center", marginTop: "60px" }}>
-      <table style={{ borderCollapse: "collapse", width: "90%", border: "1px solid #ddd" }}>
-        <thead>
+    <div style={{ overflowX: "auto", display: "flex", justifyContent: "center", marginTop: "60px" }}>
+      <table style={{ width: "90vw", tableLayout: "fixed", borderCollapse: "collapse", border: "1px solid #ddd" }}>
+        <thead style={{ position: "sticky", top: 0, backgroundColor: "white", zIndex: 10 }}>
           <tr>
             <th style={{ padding: "10px" }}>ID</th>
             <th style={{ padding: "10px" }}>Razón Social</th>
@@ -48,7 +50,7 @@ export default function ProviderTable({ search, setSelectedProvider }) {
             .map((p) => (
               <tr 
                 key={p.id} 
-                onClick={() => {
+                onClick={() => { 
                   setSelectedProvider(p);
                   setSelectedRow(p.id); // 🔹 Guarda el ID de la fila seleccionada
                 }}
@@ -58,21 +60,21 @@ export default function ProviderTable({ search, setSelectedProvider }) {
                   cursor: "pointer",
                 }}
               >
-                <td style={{ padding: "10px" }}>{p.id}</td>
-                <td style={{ padding: "10px" }}>{p.socialName}</td>
-                <td style={{ padding: "10px" }}>{p.commercialName}</td>
-                <td style={{ padding: "10px" }}>{p.tributeID}</td>
-                <td style={{ padding: "10px" }}>{p.phoneNumber}</td>
-                <td style={{ padding: "10px" }}>{p.email}</td>
-                <td style={{ padding: "10px" }}>
+                <td style={{ padding: "10px", wordWrap: "break-word" }}>{p.id}</td>
+                <td style={{ padding: "10px", wordWrap: "break-word" }}>{p.socialName}</td>
+                <td style={{ padding: "10px", wordWrap: "break-word" }}>{p.commercialName}</td>
+                <td style={{ padding: "10px", wordWrap: "break-word" }}>{p.tributeID}</td>
+                <td style={{ padding: "10px", wordWrap: "break-word" }}>{p.phoneNumber}</td>
+                <td style={{ padding: "10px", wordWrap: "break-word" }}>{p.email}</td>
+                <td style={{ padding: "10px", wordWrap: "break-word" }}>
                   <a href={p.webPage} target="_blank" style={{ color: "#007bff", textDecoration: "none" }}>
                     {p.webPage}
                   </a>
                 </td>
-                <td style={{ padding: "10px" }}>{p.address}</td>
-                <td style={{ padding: "10px" }}>{p.country}</td>
-                <td style={{ padding: "10px" }}>{p.annualBilling}</td>
-                <td style={{ padding: "10px" }}>{new Date(p.lastEdited).toLocaleDateString()}</td>
+                <td style={{ padding: "10px", wordWrap: "break-word" }}>{p.address}</td>
+                <td style={{ padding: "10px", wordWrap: "break-word" }}>{p.country}</td>
+                <td style={{ padding: "10px", wordWrap: "break-word" }}>{p.annualBilling}</td>
+                <td style={{ padding: "10px", wordWrap: "break-word" }}>{new Date(p.lastEdited).toLocaleDateString()}</td>
               </tr>
             ))}
         </tbody>

@@ -1,17 +1,29 @@
 using System;
 using System.Data;
 using System.Data.SqlClient;
+using Microsoft.Extensions.Configuration;
+
 using ProviderApi.Models;
 
 namespace ProviderApi.Services
 {
+    /// <summary>
+    /// Servicio que permite actualizar proveedores existentes en la base de datos.
+    /// </summary>
     public static class Updater{
         
+        /// <summary>
+        /// Actualiza un proveedor existente con nuevos valores.
+        /// </summary>
+        /// <param name="provider">Proveedor con datos actualizados. El campo <c>Id</c> debe estar presente.</param>
         public static void UpdateProvider(Provider provider)
         {
-            var connectionString = 
-              "Server=172.21.16.1,1433;Database=DbSPA;User Id=sa;Password=Sg72178478!;TrustServerCertificate=True;";
-            
+            var config = new ConfigurationBuilder() // Obtener credenciales de servidor 
+            .AddJsonFile("appsettings.json")
+            .Build();
+
+            var connectionString = config.GetConnectionString("DefaultConnection");
+
             using (var conn = new SqlConnection(connectionString))
             {
                 conn.Open();

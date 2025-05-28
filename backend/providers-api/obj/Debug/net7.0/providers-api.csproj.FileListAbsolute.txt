@@ -80,3 +80,5 @@
 /home/sebdev/providers-spa/backend/providers-api/obj/Debug/net7.0/providers-api.pdb
 /home/sebdev/providers-spa/backend/providers-api/obj/Debug/net7.0/providers-api.genruntimeconfig.cache
 /home/sebdev/providers-spa/backend/providers-api/obj/Debug/net7.0/ref/providers-api.dll
+/home/sebdev/providers-spa/backend/providers-api/bin/Debug/net7.0/providers-api.xml
+/home/sebdev/providers-spa/backend/providers-api/obj/Debug/net7.0/providers-api.xml

@@ -1,17 +1,29 @@
 using System;
 using System.Data;
 using System.Data.SqlClient;
+using Microsoft.Extensions.Configuration;
+
 using ProviderApi.Models;
 
 namespace ProviderApi.Services
 {
+    /// <summary>
+    /// Servicio responsable de insertar un nuevo proveedor en la base de datos.
+    /// </summary>
     public static class Creator{
         
+        /// <summary>
+        /// Inserta un nuevo registro de proveedor en la base de datos SQL Server.
+        /// </summary>
+        /// <param name="provider">Objeto Provider con los datos a insertar.</param>
         public static void CreateNewProvider(Provider provider)
-        {
-            var connectionString = 
-              "Server=172.21.16.1,1433;Database=DbSPA;User Id=sa;Password=Sg72178478!;TrustServerCertificate=True;";
-            
+        {           
+            var config = new ConfigurationBuilder() // Obtener credenciales de servidor 
+            .AddJsonFile("appsettings.json")
+            .Build();
+
+            var connectionString = config.GetConnectionString("DefaultConnection");
+
             using (var conn = new SqlConnection(connectionString))
             {
                 conn.Open();

@@ -1,5 +1,12 @@
 import React, { useState } from "react";
 
+/**
+ * Componente de formulario para registrar un nuevo proveedor.
+ *
+ * @param {Object} props
+ * @param {boolean} props.isVisible - Define si el formulario debe mostrarse.
+ * @param {Function} props.setIsVisible - Función para cerrar el formulario.
+ */
 export default function ProviderForm({ isVisible, setIsVisible }) {
   const [formData, setFormData] = useState({
     socialName: "",
@@ -10,10 +17,14 @@ export default function ProviderForm({ isVisible, setIsVisible }) {
     webPage: "",
     address: "",
     country: "",
-    annualBilling: "",
-    lastEdited: new Date().toISOString(),
+    annualBilling: 0,
+    lastEdited: new Date().toISOString(), // Fecha actual ISO
   });
 
+  /**
+   * Maneja los cambios de los campos del formulario.
+   * @param {React.ChangeEvent<HTMLInputElement | HTMLSelectElement>} e
+   */
   const handleChange = (e) => {
     setFormData({
       ...formData,
@@ -21,22 +32,32 @@ export default function ProviderForm({ isVisible, setIsVisible }) {
     });
   };
 
+  /**
+   * Envía los datos al backend para registrar un nuevo proveedor.
+   * Muestra alertas según el resultado.
+   * @param {React.FormEvent<HTMLFormElement>} e
+   */
   const handleSubmit = (e) => {
     e.preventDefault();
-    
+
     fetch("http://localhost:5232/api/backend", {
       method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
+      headers: { "Content-Type": "application/json" },
       body: JSON.stringify(formData),
     })
-      .then((res) => res.json())
-      .then((data) => {
-        alert("Proveedor agregado correctamente.");
-        setIsVisible(false);
+      .then(async (res) => {
+        if (!res.ok) {
+          const errorData = await res.json();
+          throw new Error(errorData.message || `Código de error ${res.status}`);
+        }
+        return res.json();
       })
-      .catch((err) => alert("Error al guardar proveedor:", err));
+      .then(() => {
+        alert("✅ Proveedor agregado correctamente.");
+        setIsVisible(false);
+        window.location.reload();
+      })
+      .catch((err) => alert("❌ Error al guardar proveedor:", err));
   };
 
   if (!isVisible) return null;
@@ -47,7 +68,9 @@ export default function ProviderForm({ isVisible, setIsVisible }) {
       backgroundColor: "#fff", padding: "20px", borderRadius: "10px", boxShadow: "0px 2px 5px rgba(0,0,0,0.2)"
     }}>
       <h2>📋 Agregar Proveedor</h2>
-      <form onSubmit={handleSubmit} style={{display: "grid", gridTemplateColumns: "1fr 1fr", gap: "15px", textAlign: "left"}}>
+      <form onSubmit={handleSubmit} style={{
+        display: "grid", gridTemplateColumns: "1fr 1fr", gap: "15px", textAlign: "left"
+      }}>
         <label>Razón Social:</label>
         <input type="text" name="socialName" value={formData.socialName} onChange={handleChange} required />
 
@@ -55,7 +78,7 @@ export default function ProviderForm({ isVisible, setIsVisible }) {
         <input type="text" name="commercialName" value={formData.commercialName} onChange={handleChange} required />
 
         <label>Identificación Tributaria:</label>
-        <input type="number" name="tributeID" value={formData.tributeID} onChange={handleChange} required />
+        <input type="text" name="tributeID" value={formData.tributeID} minLength="11" onChange={handleChange} required />
 
         <label>Teléfono:</label>
         <input type="tel" name="phoneNumber" value={formData.phoneNumber} onChange={handleChange} required />

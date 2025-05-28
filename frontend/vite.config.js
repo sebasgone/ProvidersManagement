@@ -7,7 +7,7 @@ export default defineConfig({
   server: {
     proxy: {
       '/api': {
-        target: 'http://localhost:5232',   // tu API .NET
+        target: 'http://localhost:5232',   //  Puerto de API .NET
         changeOrigin: true,
       }
     }

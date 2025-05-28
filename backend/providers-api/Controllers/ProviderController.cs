@@ -1,29 +1,31 @@
 using Microsoft.AspNetCore.Mvc;
 using ProviderApi.Models;
 using ProviderApi.Services;
-using System.Collections.Generic;
 
 namespace ProviderApi.Controllers
 {
     [ApiController]
-    [Route("api/backend")]//rutabase
+    [Route("api/backend")]//Ruta base
     public class ProviderController : ControllerBase
     {
-        // POST api/provider
-        // Crea un nuevo proveedor
+         /// <summary>
+        /// Crea un nuevo proveedor.
+        /// </summary>
         [HttpPost]
         public IActionResult Create([FromBody] Provider p)
         {
             Manager.CreateNewProvider(p);
             
             return CreatedAtAction(
-                nameof(GetByName),      // 1) nombre del método GET
-                new { name = p.CommercialName },  // 2) variables de ruta para esa ruta
+                nameof(GetByName),      
+                new { name = p.CommercialName },
                 p );
         }
 
-        // GET api/provider/search/{name}
-        // Busca proveedores por nombre
+        /// <summary>
+        /// Busca proveedores por nombre.
+        /// </summary>
+        /// <param name="name">Nombre comercial del proveedor</param>
         [HttpGet("search/{name}")]
         public ActionResult<List<Provider>> GetByName([FromRoute] string name)
         {
@@ -33,9 +35,9 @@ namespace ProviderApi.Controllers
             return Ok(list);
         }
 
-         
-         // GET api/provider/search/{name}
-        // Busca proveedores por nombre
+        /// <summary>
+        /// Retorna la lista de todos los proveedores registrados.
+        /// </summary>         
         [HttpGet("fetchall")]
         public ActionResult<List<Provider>> GetAllProviders()
         {
@@ -47,8 +49,9 @@ namespace ProviderApi.Controllers
             return Ok(list);
         }
 
-        // PUT api/provider
-        // Actualiza un proveedor (enviamos todo el objeto con Id existente)
+        /// <summary>
+        /// Actualiza un proveedor existente.
+        /// </summary>
         [HttpPut]
         public IActionResult Update([FromBody] Provider p)
         {
@@ -56,15 +59,17 @@ namespace ProviderApi.Controllers
             return NoContent(); // 204
         }
 
-        // DELETE api/provider/{id}
-        // Elimina un proveedor; pasamos solo el Id en la ruta
+        /// <summary>
+        /// Elimina un proveedor por su ID.
+        /// </summary>
+        /// <param name="id">ID del proveedor</param>
         [HttpDelete("delete/{id}")]
         public IActionResult Delete([FromRoute] int id)
         {
-            // Tendremos que construir un objeto Provider mínimo para borrar
+            // Se tiene que construir un objeto Provider mínimo para borrar
             var dummy = new Provider { Id = id };
             Manager.DeleteProvider(dummy);
-            return NoContent(); // 204
+            return NoContent(); 
         }
     }
 }

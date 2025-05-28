@@ -1,14 +1,27 @@
 import React, { useState, useEffect } from "react";
 
-export default function ProviderEditForm({ isEditing, setIsEditing, selectedProvider}) {
+/**
+ * Componente que muestra un formulario para editar un proveedor existente.
+ *
+ * @param {Object} props
+ * @param {boolean} props.isEditing - Controla la visibilidad del formulario.
+ * @param {Function} props.setIsEditing - Función para cerrar el formulario.
+ * @param {Object} props.selectedProvider - Proveedor a editar.
+ */
+export default function ProviderEditForm({ isEditing, setIsEditing, selectedProvider }) {
   const [formData, setFormData] = useState(selectedProvider || {});
 
+  // ⚡ Actualiza los datos del formulario cuando se selecciona un proveedor nuevo
   useEffect(() => {
-  if (selectedProvider) {
-    setFormData(selectedProvider);
-  }
-}, [selectedProvider]);
+    if (selectedProvider) {
+      setFormData(selectedProvider);
+    }
+  }, [selectedProvider]);
 
+  /**
+   * Maneja cambios en los campos del formulario.
+   * @param {React.ChangeEvent<HTMLInputElement | HTMLSelectElement>} e
+   */
   const handleChange = (e) => {
     setFormData({
       ...formData,
@@ -16,23 +29,30 @@ export default function ProviderEditForm({ isEditing, setIsEditing, selectedProv
     });
   };
 
+  /**
+   * Envía los datos actualizados al backend.
+   * @param {React.FormEvent} e
+   */
   const handleSubmit = (e) => {
     e.preventDefault();
-    
-    fetch(`http://localhost:5232/api/backend/${parseInt(formData.id)}`, { // 🔹 Envío del ID del proveedor
-        method: "PUT",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(formData),
-    })
-    .then((res) => res.json())
-    .then(() => {
-      alert("✅ Proveedor actualizado correctamente.");
-      setIsEditing(false); // 🔹 Cierra el formulario después de actualizar
-    })
-    .catch((err) => alert("❌ Error al actualizar proveedor:", err));
-};
-  
 
+    fetch(`http://localhost:5232/api/backend/`, {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(formData),
+    })
+      .then((res) => console.log(res))
+      .then(() => {
+        alert("✅ Proveedor actualizado correctamente.");
+        setIsEditing(false);
+        window.location.reload(); // 🔄 Recarga para reflejar cambios
+      })
+      .catch((err) =>
+        alert("❌ Error al actualizar proveedor:", err)
+      );
+  };
+
+  // ❌ Si no está en modo edición, no renderiza nada
   if (!isEditing) return null;
 
   return (
@@ -41,7 +61,9 @@ export default function ProviderEditForm({ isEditing, setIsEditing, selectedProv
       backgroundColor: "#fff", padding: "20px", borderRadius: "10px", boxShadow: "0px 2px 5px rgba(0,0,0,0.2)"
     }}>
       <h2>✏️ Editar Proveedor</h2>
-      <form onSubmit={handleSubmit} style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "15px", textAlign: "left" }}>
+      <form onSubmit={handleSubmit} style={{
+        display: "grid", gridTemplateColumns: "1fr 1fr", gap: "15px", textAlign: "left"
+      }}>
         <label>Razón Social:</label>
         <input type="text" name="socialName" value={formData.socialName || ""} onChange={handleChange} required />
 
@@ -74,10 +96,15 @@ export default function ProviderEditForm({ isEditing, setIsEditing, selectedProv
         <label>Facturación Anual:</label>
         <input type="number" name="annualBilling" value={formData.annualBilling || ""} onChange={handleChange} required />
 
-        <button type="submit" style={{ backgroundColor: "#28a745", color: "white", padding: "10px", marginTop: "10px" }}>
+        <button type="submit" style={{
+          backgroundColor: "#28a745", color: "white", padding: "10px", marginTop: "10px"
+        }}>
           ✅ Guardar
         </button>
-        <button type="button" onClick={() => setIsEditing(false)} style={{ backgroundColor: "#dc3545", color: "white", padding: "10px", marginTop: "10px" }}>
+
+        <button type="button" onClick={() => setIsEditing(false)} style={{
+          backgroundColor: "#dc3545", color: "white", padding: "10px", marginTop: "10px"
+        }}>
           ❌ Cancelar
         </button>
       </form>

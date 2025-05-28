@@ -1,19 +1,29 @@
 using System;
 using System.Data;
 using System.Data.SqlClient;
+using Microsoft.Extensions.Configuration;
+
 
 using ProviderApi.Models;
 
 namespace ProviderApi.Services
 {
+    /// <summary>
+    /// Servicio responsable de eliminar proveedores de la base de datos.
+    /// </summary>
     public static class Eraser{
         
+        /// <summary>
+        /// Elimina un proveedor existente por su ID.
+        /// </summary>
+        /// <param name="provider">Instancia con el ID del proveedor a eliminar.</param>
         public static void DeleteProvider(Provider provider)
         {
-            // Elimina a un proveedor del sistema.
-            var connectionString = 
-              "Server=172.21.16.1,1433;Database=DbSPA;User Id=sa;Password=Sg72178478!;TrustServerCertificate=True;";
-            
+            var config = new ConfigurationBuilder() // Obtener credenciales de servidor 
+            .AddJsonFile("appsettings.json")
+            .Build();
+
+            var connectionString = config.GetConnectionString("DefaultConnection");            
             using (var conn = new SqlConnection(connectionString))
             {
                 conn.Open();
