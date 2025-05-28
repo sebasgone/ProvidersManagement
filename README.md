@@ -136,6 +136,11 @@ La carpeta node_modules está ignoradas por .gitignore.
 Swagger sirve como documentación viva de la API.
 
 El desplegable de países para los diversos procedmientos está en 3 opciones (extensible en futuras versiones).
- 
 
+
+## ✍️ Autor
+
+Sebastián García Tolentino 
+AI Developer
+https://www.linkedin.com/in/sebasgone21/
 
