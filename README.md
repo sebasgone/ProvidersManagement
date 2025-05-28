@@ -118,7 +118,7 @@ cd backend/providers-api
 dotnet run
 ```
 ### 2. Ejecutar API Risk Scraper
-La documentación de esta API está en el siguiente [enlace](https://url-del-enlace.com).
+La documentación de esta API está en el siguiente [enlace](https://github.com/sebasgone/RiskScraper).
 
 La API debe correr en el puerto 8000.
 
